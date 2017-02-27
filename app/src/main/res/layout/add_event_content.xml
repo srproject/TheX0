@@ -47,7 +47,7 @@
                 />
 
 
-
+<!---
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabloc"
                 android:layout_width="60dp"
@@ -58,6 +58,8 @@
                 app:srcCompat="@android:drawable/ic_menu_mylocation"
                 app:color="#ffffff"
                 />
+
+                -->
 
         </android.support.v7.widget.CardView>
 

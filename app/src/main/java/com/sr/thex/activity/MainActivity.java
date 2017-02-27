@@ -219,10 +219,16 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             startActivity(intent);
 
         } else if (id == R.id.nav_item_help) {
-            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-            startActivity(intent);
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "Here is the share content body";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

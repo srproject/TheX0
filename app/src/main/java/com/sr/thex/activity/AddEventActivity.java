@@ -106,6 +106,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             @Override
             public void onLocationChanged(Location location) {
                loc.setText( location.getLongitude() + "," + location.getLatitude());
+
                 //locname.setText( location.getLongitude() + "," + location.getLatitude());
                 List<Address> addresses;
                 Geocoder gcd=new Geocoder(getBaseContext(), Locale.getDefault());
@@ -119,9 +120,12 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                         cityname = addresses.get(0).getAddressLine(0).toString();
                         if(addresses.get(0).getLocality()==null) {
                             cityname2 = addresses.get(0).getCountryName();
+                            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_SHORT).show();
+
                         }
                         else {
                             cityname2 = addresses.get(0).getLocality() + " - " + addresses.get(0).getCountryName();
+                            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_SHORT).show();
 
 
                         }
@@ -176,31 +180,31 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
           day = mcurrentTime.get(Calendar.DAY_OF_MONTH);
 
         datematab =(EditText) findViewById(R.id.datematab);
-        datematab.setText(day + " / " + (mon+1) + " / " + year);
+        datematab.setText(day + "/" + (mon+1) + "/" + year);
 
-        datematab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
-
-
-
-                DatePickerDialog datePickerDialog  ;
+       // datematab.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+           // public void onClick(View view) {
+             //   imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
 
 
-                datePickerDialog = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
 
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int years, int mons, int days) {
+//                DatePickerDialog datePickerDialog  ;
 
-                        datematab.setText(days + " / " + (mons+1) + " / " + years);
 
-                    }
-                }, year, mon, day);
-                datePickerDialog.setTitle("Select Date");
-                datePickerDialog.show();
-            }
-        });
+  //              datePickerDialog = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+    //                @Override
+      //              public void onDateSet(DatePicker datePicker, int years, int mons, int days) {
+
+        //                datematab.setText(days + " / " + (mons+1) + " / " + years);
+
+            //        }
+          //      }, year, mon, day);
+              //  datePickerDialog.setTitle("Select Date");
+                //datePickerDialog.show();
+          //  }
+        //});
 
 
         Date dt = new Date();
@@ -212,53 +216,53 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         //addtime
         timematab = (EditText) findViewById(R.id.timematab);
-        timematab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
+       // timematab.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+           // public void onClick(View view) {
+             //   imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
 
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
+               // Calendar mcurrentTime = Calendar.getInstance();
+                //int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+             //   int minute = mcurrentTime.get(Calendar.MINUTE);
+               // TimePickerDialog mTimePicker;
+    //            mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        if(selectedHour<10&&selectedMinute<10){
+//                    @Override
+  //                  public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+    //                    if(selectedHour<10&&selectedMinute<10){
 
-                            timematab.setText("0"+selectedHour + ":" + 0+selectedMinute);
+//                            timematab.setText("0"+selectedHour + ":" + 0+selectedMinute);
 
-                        }
-                        else  if(selectedHour<10 ){
+//                        }
+  //                      else  if(selectedHour<10 ){
 
-                            timematab.setText("0"+selectedHour + ":" + selectedMinute);
+    //                        timematab.setText("0"+selectedHour + ":" + selectedMinute);
+//
+  //                      }
+    //                    else  if( selectedMinute<10){
 
-                        }
-                        else  if( selectedMinute<10){
+      //                      timematab.setText(selectedHour + ":" + 0+selectedMinute);
 
-                            timematab.setText(selectedHour + ":" + 0+selectedMinute);
+        //                }
+          //              else {
 
-                        }
-                        else {
+//                            timematab.setText(selectedHour + ":" + selectedMinute);
 
-                            timematab.setText(selectedHour + ":" + selectedMinute);
+  //                      }
 
-                        }
-
-                    }
-                }, hour, minute, false);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
-            }
-        });
+    //                }
+      //          }, hour, minute, false);//Yes 24 hour time
+        //        mTimePicker.setTitle("Select Time");
+          //      mTimePicker.show();
+           // }
+       // });
         // FindViewById
         imageaddmatab = (ImageView) findViewById(R.id.imageaddmatab);
         samplemap = (ImageView) findViewById(R.id.samplemap);
 
         // FindViewById//
 
-        fabloc = (FloatingActionButton) findViewById(R.id.fabloc);
+       // fabloc = (FloatingActionButton) findViewById(R.id.fabloc);
 
 
 
@@ -277,16 +281,16 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         });
 
 
-        fabloc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+      //  fabloc.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+          //  public void onClick(View view) {
 
-                Intent locIntent = new Intent(getApplication(), MapActivity.class);
-                startActivity(locIntent);
+            //    Intent locIntent = new Intent(getApplication(), MapActivity.class);
+              //  startActivity(locIntent);
 
 
-            }
-        });
+            //}
+        //});
 
         //ClickListener
     }
@@ -362,7 +366,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         super.onResume();
         if( MapActivity.activityPaused()==true){
             loadImageFromStorage();
-            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_LONG).show();
 
         }
     }
