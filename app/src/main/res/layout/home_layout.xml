@@ -178,7 +178,7 @@
                 app:elevation="6dp"
                 app:pressedTranslationZ="12dp"
 
-                app:srcCompat="@mipmap/srdislike"
+                app:srcCompat="@mipmap/srdislike00"
                 app:layout_behavior="com.codepath.floatingactionbuttontest.ScrollAwareFABBehavior"
                 />
 
