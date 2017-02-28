@@ -1,11 +1,14 @@
 package com.sr.thex.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,8 +29,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.util.Log;
 
@@ -35,6 +40,8 @@ import com.sr.thex.R;
 import com.sr.thex.fragment.TabFragment;
 
 import java.util.Map;
+
+import static android.R.attr.value;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
@@ -47,10 +54,14 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
     PackageInfo info;
     private ViewPager mViewPager;
      TabLayout tabLayout;
-
-    FragmentManager mFragmentManager;
+     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     SearchView mSearchView;
+
+    FrameLayout ff;
+
+
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,9 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        //tab
 
 
 
@@ -219,13 +233,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             startActivity(intent);
 
         } else if (id == R.id.nav_item_help) {
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String shareBody = "Here is the share content body";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
 
 
@@ -335,6 +344,9 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             fab4.setClickable(false);
             isFabOpen = false;
             Log.d("Raj", "close");
+            final View shadowView =(View)findViewById(R.id.shadowView);
+            shadowView.setVisibility(View.GONE);
+
 
         } else {
 
@@ -349,6 +361,10 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             fab4.setClickable(true);
             isFabOpen = true;
             Log.d("Raj","open");
+            final View shadowView =(View)findViewById(R.id.shadowView);
+             shadowView.getBackground().setAlpha(1);
+            shadowView.setVisibility(View.VISIBLE);
+
 
         }
     }

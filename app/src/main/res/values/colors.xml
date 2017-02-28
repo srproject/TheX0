@@ -18,4 +18,7 @@
     <color name="colornBackDark">#FFFFF9</color>
     <color name="colorAccentLight">#FF0000</color>
     <color name="FacebookColor">#3B5998</color>
+    <color name="cache_color">#00000000</color>
+
+
 </resources>

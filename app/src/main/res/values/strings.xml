@@ -246,4 +246,5 @@
     </string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_dim">dim</string>
 </resources>

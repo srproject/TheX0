@@ -73,7 +73,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login_fragment"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.MainActivity"
+            >
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -93,10 +94,15 @@
         <activity
             android:name=".activity.AddEventActivity"
             android:label="@string/title_activity_add_event"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity"
+            />
         <activity
             android:name=".activity.MapActivity"
-            android:label="@string/title_activity_map" />
+            android:label="@string/title_activity_map"
+            android:parentActivityName=".activity.MainActivity"
+            />
+
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -113,13 +119,16 @@
         <activity
             android:name=".activity.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
