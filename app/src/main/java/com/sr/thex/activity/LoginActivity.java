@@ -71,10 +71,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.dimAmount = 1.0f;
-
-        getWindow().setAttributes(lp);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
