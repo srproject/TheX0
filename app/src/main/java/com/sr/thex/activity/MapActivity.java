@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
@@ -102,6 +103,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
+
+
+
+        new CountDownTimer(2000, 100) {
+
+            public void onTick(long millisUntilFinished) {
+Log.i("SR","Start");
+            }
+
+            public void onFinish() {
+                CaptureMapScreen();
+
+
+            }
+
+        }.start();
 
 
     }
@@ -367,7 +384,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setMapToolbarEnabled(false);
-/*
+
 
         Marker kiel = mMap.addMarker(new MarkerOptions()
                 .position(KIEL)
@@ -400,21 +417,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 .icon(BitmapDescriptorFactory
                         .fromResource(R.mipmap.ic_warning_black_48dp)));
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(KIEL, 50));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(KIEL, 18));
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
 
-                if(marker.getTitle().equals("Kiel")){
-                    Intent intent1 = new Intent(getApplicationContext(), RegistrationActivity.class);
-                    startActivity(intent1);
-                }
-            }
-        });
 
-        */
-        // mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+
+      //  mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
     }
    public void getCurrentLocation() {
         Location myLocation  = mMap.getMyLocation();
