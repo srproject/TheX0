@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -61,12 +62,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     String knownName;
     LatLng latLng;
     String latlat;
+    int gg=10;
 
 
     Bitmap bitmap;
     FloatingActionButton fabsetmap;
 
     LocationManager locationManager;
+    private android.location.LocationListener listener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,38 +89,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         fabsetmap=(FloatingActionButton)findViewById(R.id.fabsetmap) ;
 
-        fabsetmap.setOnClickListener(new View.OnClickListener() {
+
+         fabsetmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 CaptureMapScreen();
-                Toast.makeText(getApplicationContext(), "Location is Saved , Click Long to Update Location and add (Event) ", Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
-        fabsetmap.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (bitmap != null) {
-                    try {
-                        saveImage(bitmap);
-                        finish();
-
-                        Intent intent = new Intent(MapActivity.this, AddEventActivity.class);
-                        startActivity(intent);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    bitmap = null;
-
-                    Toast.makeText(getApplicationContext(), "No Image Click Again", Toast.LENGTH_SHORT).show();
-
-                }
-
-                return false;
-            }
-        });
 
 
     }
@@ -152,18 +137,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
           Toast.makeText(getApplicationContext(),"Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
 
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        latlat=location.getLatitude()+","+ location.getLongitude();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 70);
         mMap.animateCamera(cameraUpdate);
-mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-    @Override
-    public void onCameraChange(CameraPosition cameraPosition) {
 
-        Toast.makeText(getApplicationContext(), address + " " + city + " " + country, Toast.LENGTH_LONG).show();
-
-
-    }
-});
 
         new GoogleMap.OnCameraMoveStartedListener() {
             @Override
@@ -284,18 +260,52 @@ mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             public void onSnapshotReady(Bitmap snapshot) {
                 // TODO Auto-generated method stub
                 bitmap = snapshot;
-                try {
-                    //saveImage(bitmap);
-                    //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 40, bytes);
+                String appname = getString(R.string.app_name);
+                File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Image/");
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                    Toast.makeText(getApplicationContext(), "Folder Maked", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    File f2 = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Image/location_add.png");
+
+
+                    try {
+                        f2.createNewFile();
+                        FileOutputStream fo = new FileOutputStream(f2);
+                        fo.write(bytes.toByteArray());
+                        fo.close();
+
+
+                            finish();
+
+                            Intent intent = new Intent(MapActivity.this, AddEventActivity.class);
+                            startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Location Update", Toast.LENGTH_SHORT).show();
+
+
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                 }
+
             }
 
 
         };
 
+
         mMap.snapshot(callback);
+
+
 
 
     }
@@ -304,14 +314,45 @@ mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        setUpMap();
+        setupMap();
     }
 
-    private void setUpMap() {
+
+
+    private void setupMap() {
 
         mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
+        mMap.setBuildingsEnabled(true);
+        mMap.setIndoorEnabled(true);
+
+        listener = new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 70);
+                mMap.animateCamera(cameraUpdate);
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -324,10 +365,9 @@ mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setMapToolbarEnabled(false);
-
+/*
 
         Marker kiel = mMap.addMarker(new MarkerOptions()
                 .position(KIEL)
@@ -373,6 +413,7 @@ mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             }
         });
 
+        */
         // mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
     }
    public void getCurrentLocation() {

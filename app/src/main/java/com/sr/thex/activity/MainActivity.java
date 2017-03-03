@@ -71,8 +71,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         setSupportActionBar(toolbar);
 
 
-        //tab
-
+ 
 
 
 
@@ -229,11 +228,11 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         } else if (id == R.id.nav_item_Contacts) {
 
         } else if (id == R.id.nav_item_setting) {
-            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_item_help) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, MapActivity.class);
             startActivity(intent);
         }
 
@@ -344,6 +343,9 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             fab4.setClickable(false);
             isFabOpen = false;
             Log.d("Raj", "close");
+
+            //for undim screen
+
             final View shadowView =(View)findViewById(R.id.shadowView);
             shadowView.setVisibility(View.GONE);
 
@@ -361,6 +363,9 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             fab4.setClickable(true);
             isFabOpen = true;
             Log.d("Raj","open");
+
+            //for dim screen
+
             final View shadowView =(View)findViewById(R.id.shadowView);
              shadowView.getBackground().setAlpha(1);
             shadowView.setVisibility(View.VISIBLE);

@@ -13,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -49,6 +50,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -174,6 +177,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
  //for date
 
+        /*
         Calendar mcurrentTime = Calendar.getInstance();
           year = mcurrentTime.get(Calendar.YEAR);
           mon = mcurrentTime.get(Calendar.MONTH);
@@ -181,6 +185,8 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         datematab =(EditText) findViewById(R.id.datematab);
         datematab.setText(day + "/" + (mon+1) + "/" + year);
+
+        */
 
        // datematab.setOnClickListener(new View.OnClickListener() {
          //   @Override
@@ -206,7 +212,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
           //  }
         //});
 
-
+/*
         Date dt = new Date();
         int hours = dt.getHours();
         int minutes = dt.getMinutes();
@@ -216,53 +222,46 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         //addtime
         timematab = (EditText) findViewById(R.id.timematab);
-       // timematab.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-           // public void onClick(View view) {
-             //   imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
 
-               // Calendar mcurrentTime = Calendar.getInstance();
-                //int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-             //   int minute = mcurrentTime.get(Calendar.MINUTE);
-               // TimePickerDialog mTimePicker;
-    //            mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        */
 
-//                    @Override
-  //                  public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-    //                    if(selectedHour<10&&selectedMinute<10){
+        timematab = (EditText) findViewById(R.id.timematab);
 
-//                            timematab.setText("0"+selectedHour + ":" + 0+selectedMinute);
 
-//                        }
-  //                      else  if(selectedHour<10 ){
+        new CountDownTimer(300000000, 1000) {
 
-    //                        timematab.setText("0"+selectedHour + ":" + selectedMinute);
-//
-  //                      }
-    //                    else  if( selectedMinute<10){
+            public void onTick(long millisUntilFinished) {
 
-      //                      timematab.setText(selectedHour + ":" + 0+selectedMinute);
+                DateFormat tf = new SimpleDateFormat("HH:mm:ss");
+                String time = tf.format(Calendar.getInstance().getTime());
+                timematab.setText(time);
 
-        //                }
-          //              else {
 
-//                            timematab.setText(selectedHour + ":" + selectedMinute);
+                datematab =(EditText) findViewById(R.id.datematab);
 
-  //                      }
 
-    //                }
-      //          }, hour, minute, false);//Yes 24 hour time
-        //        mTimePicker.setTitle("Select Time");
-          //      mTimePicker.show();
-           // }
-       // });
+                DateFormat df = new SimpleDateFormat("EEE, dd/MM/yyyy");
+                String date = df.format(Calendar.getInstance().getTime());
+                datematab.setText(date);
+
+
+
+            }
+
+            public void onFinish() {
+               // timematab.setText("Unlocking!");
+            }
+        }.start();
+
+
+
         // FindViewById
         imageaddmatab = (ImageView) findViewById(R.id.imageaddmatab);
         samplemap = (ImageView) findViewById(R.id.samplemap);
 
         // FindViewById//
 
-       // fabloc = (FloatingActionButton) findViewById(R.id.fabloc);
+        fabloc = (FloatingActionButton) findViewById(R.id.fabloc);
 
 
 
