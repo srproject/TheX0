@@ -47,21 +47,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
 private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
-     private static final int RESULT_SETTINGS = 1;
-    private Boolean isFabOpen = false;
-    private FloatingActionButton fab,fab1,fab2,fab3,fab4;
-    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
-    PackageInfo info;
-    private ViewPager mViewPager;
-     TabLayout tabLayout;
-     FragmentManager mFragmentManager;
-    FragmentTransaction mFragmentTransaction;
-    SearchView mSearchView;
 
-    FrameLayout ff;
+        private Boolean isFabOpen = false;
+        private FloatingActionButton fab,fab1,fab2,fab3,fab4;
+        private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+        FragmentManager mFragmentManager;
+        FragmentTransaction mFragmentTransaction;
+        SearchView mSearchView;
 
-
-    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +98,12 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
          */
 
 
-
+//setup for tab
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
 
+//setup for nav
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -120,6 +114,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+//setup fab animation
 
     @Override
     public void onClick(View v) {
@@ -149,6 +145,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             super.onBackPressed();
         }
     }
+
+//setup fab search
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -203,6 +201,9 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
         return super.onOptionsItemSelected(item);
     }
+
+
+//setup for
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

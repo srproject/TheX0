@@ -263,6 +263,15 @@ android:enabled="false"
 
             >
 
+            <TextView
+                android:id="@+id/detailscu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:gravity="right"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -284,6 +293,8 @@ android:enabled="false"
                     android:maxLines="5"
 
                     />
+
+
 
             </android.support.design.widget.TextInputLayout>
 

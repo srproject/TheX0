@@ -1,5 +1,6 @@
 package com.sr.thex.activity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Service;
 import android.app.TimePickerDialog;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,6 +21,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -41,14 +46,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.sr.thex.R;
 import com.sr.thex.adapter.GPSTracker;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -59,17 +72,17 @@ import java.util.Locale;
 
 public class AddEventActivity extends AppCompatActivity implements LocationListener {
 
-    public GoogleMap mMap;
-    ImageView imageaddmatab;
-    ImageView samplemap;
-    FloatingActionButton fabloc;
-    int CAMERA_PIC_REQUEST = 2;
-    int  TAKE_PICTURE=0;
-    Camera camera;
-    Bitmap bitmap;
-    int year,mon,day;
-    EditText datematab,timematab,loc,locname,detailsmatab;
-    String cityname,cityname2;
+
+     FloatingActionButton fabloc,fabsend;
+     int dc2;
+     Bitmap bitmap;
+     EditText datematab,timematab,loc,locname,detailsmatab;
+     TextView detailscu;
+     ImageView imageaddmatab;
+     ImageView samplemap;
+     int PLACE_PICKER_REQUEST=1;
+     int CAMERA_PIC_REQUEST = 2;
+
 
     private LocationManager locationManager;
     private LocationListener listener;
@@ -81,12 +94,8 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //edit enable
 
-           // datematab.setEnabled(false);
-          // timematab.setEnabled(false);
-         // loc.setEnabled(false);
-        // locname.setEnabled(false);
+
 
         detailsmatab=(EditText)findViewById(R.id.detailsmatab) ;
         detailsmatab.requestFocus();
@@ -98,8 +107,53 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         locname=(EditText)findViewById(R.id.locname) ;
 
 
-        loc.setText("Waiting For GPS");
-        locname.setText("Waiting For GPS");
+        String appname = getString(R.string.app_name);
+
+        //  readFileAsString(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Text/");
+
+        String path1 = Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Text/";
+
+
+
+//Get the text file
+        File file1 = new File(path1,"sr1.txt");
+        File file2 = new File(path1,"sr2.txt");
+        File file3 = new File(path1,"sr3.txt");
+
+//Read text from file
+        StringBuilder text1 = new StringBuilder();
+        StringBuilder text2 = new StringBuilder();
+        StringBuilder text3 = new StringBuilder();
+
+        try {
+            BufferedReader br1 = new BufferedReader(new FileReader(file1));
+            BufferedReader br2 = new BufferedReader(new FileReader(file2));
+            BufferedReader br3 = new BufferedReader(new FileReader(file3));
+
+            String line1;
+            String line2;
+            String line3;
+
+            while ((line1 = br1.readLine()) != null) {
+                text1.append(line1);
+            }
+            br1.close();
+            while ((line2 = br2.readLine()) != null) {
+                text2.append(line2);
+            }
+            br2.close();
+            while ((line3 = br3.readLine()) != null) {
+                text3.append(line3);
+            }
+            br3.close();
+        }
+        catch (IOException e) {
+            //You'll need to add proper error handling here
+        }
+
+
+        loc.setText(text1+","+text2);
+        locname.setText(text3);
 
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -108,54 +162,21 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-               loc.setText( location.getLongitude() + "," + location.getLatitude());
 
-                //locname.setText( location.getLongitude() + "," + location.getLatitude());
-                List<Address> addresses;
-                Geocoder gcd=new Geocoder(getBaseContext(), Locale.getDefault());
-
-                try {
-                    addresses=gcd.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                    if(addresses.size()>0)
-
-                    {
-                       // while(locname.getText().toString()==null) {
-                        cityname = addresses.get(0).getAddressLine(0).toString();
-                        if(addresses.get(0).getLocality()==null) {
-                            cityname2 = addresses.get(0).getCountryName();
-                            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_SHORT).show();
-
-                        }
-                        else {
-                            cityname2 = addresses.get(0).getLocality() + " - " + addresses.get(0).getCountryName();
-                            Toast.makeText(getApplicationContext(), "Location Updated", Toast.LENGTH_SHORT).show();
-
-
-                        }
-                        locname.setText(cityname+" - "+cityname2);
-                      //  }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                }
+                loc.setText( location.getLongitude() + "," + location.getLatitude());
 
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
 
-                loc.setText("Waiting For GPS...");
-                locname.setText("Waiting For GPS...");
+
 
             }
 
             @Override
             public void onProviderEnabled(String s) {
 
-                loc.setText("Search For Location");
-                locname.setText("Search For Location");
 
             }
 
@@ -167,65 +188,18 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
         };
 
-        configure_button();
+        getlatlong();
 
 
 
-        //addtime
-        final InputMethodManager imm = (InputMethodManager)this.getSystemService(Service.INPUT_METHOD_SERVICE);
 
 
- //for date
+ //for date and time
 
-        /*
-        Calendar mcurrentTime = Calendar.getInstance();
-          year = mcurrentTime.get(Calendar.YEAR);
-          mon = mcurrentTime.get(Calendar.MONTH);
-          day = mcurrentTime.get(Calendar.DAY_OF_MONTH);
 
+
+        timematab = (EditText) findViewById(R.id.timematab);
         datematab =(EditText) findViewById(R.id.datematab);
-        datematab.setText(day + "/" + (mon+1) + "/" + year);
-
-        */
-
-       // datematab.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-           // public void onClick(View view) {
-             //   imm.hideSoftInputFromWindow(datematab.getWindowToken(), 0);
-
-
-
-//                DatePickerDialog datePickerDialog  ;
-
-
-  //              datePickerDialog = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-    //                @Override
-      //              public void onDateSet(DatePicker datePicker, int years, int mons, int days) {
-
-        //                datematab.setText(days + " / " + (mons+1) + " / " + years);
-
-            //        }
-          //      }, year, mon, day);
-              //  datePickerDialog.setTitle("Select Date");
-                //datePickerDialog.show();
-          //  }
-        //});
-
-/*
-        Date dt = new Date();
-        int hours = dt.getHours();
-        int minutes = dt.getMinutes();
-        int seconds = dt.getSeconds();
-        String curTime = hours + ":" + minutes + ":" + seconds;
-        fillTextView(R.id.timematab,curTime);
-
-        //addtime
-        timematab = (EditText) findViewById(R.id.timematab);
-
-        */
-
-        timematab = (EditText) findViewById(R.id.timematab);
 
 
         new CountDownTimer(300000000, 1000) {
@@ -237,7 +211,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                 timematab.setText(time);
 
 
-                datematab =(EditText) findViewById(R.id.datematab);
 
 
                 DateFormat df = new SimpleDateFormat("EEE, dd/MM/yyyy");
@@ -249,8 +222,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
 
             public void onFinish() {
-               // timematab.setText("Unlocking!");
-            }
+             }
         }.start();
 
 
@@ -260,8 +232,83 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         samplemap = (ImageView) findViewById(R.id.samplemap);
 
         // FindViewById//
+        detailscu= (TextView) findViewById(R.id.detailscu);
+        detailsmatab.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    if(detailsmatab.length()<50){
+
+
+                         detailscu.setText("");
+
+                    }
+                    if(detailsmatab.length()>49){
+
+
+                        dc2=detailsmatab.length();
+                        detailscu.setText(Integer.toString(dc2));
+
+                    }
+                    if(detailsmatab.length()<100){
+
+                        detailscu.setTextColor(Color.parseColor("#FF0000"));
+                    }
+                    if (detailsmatab.length()>=100){
+                        detailscu.setTextColor(Color.parseColor("#3CDE00"));
+
+
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
 
         fabloc = (FloatingActionButton) findViewById(R.id.fabloc);
+        fabsend= (FloatingActionButton) findViewById(R.id.fabsend);
+        fabsend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(detailsmatab.length()<100){
+
+                    Toast.makeText(getApplicationContext(), "No", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Yes, Lets Go :)", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        fabloc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+
+                Intent intent;
+                try {
+                    intent=builder.build(AddEventActivity.this);
+                    startActivityForResult(intent,PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
 
@@ -279,17 +326,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
         });
 
-
-      //  fabloc.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-          //  public void onClick(View view) {
-
-            //    Intent locIntent = new Intent(getApplication(), MapActivity.class);
-              //  startActivity(locIntent);
-
-
-            //}
-        //});
 
         //ClickListener
     }
@@ -345,6 +381,38 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PLACE_PICKER_REQUEST
+                && resultCode == Activity.RESULT_OK){
+
+
+            final Place place = PlacePicker.getPlace(this, data);
+            final CharSequence name = place.getName();
+            final CharSequence address = place.getAddress();
+
+            String attributions = (String) place.getAttributions();
+            if (attributions == null) {
+                attributions = "";
+            }
+
+
+            double sr1=place.getLatLng().latitude;
+            double sr2=place.getLatLng().longitude;
+
+
+            writeToFile(String.valueOf(sr1),"sr1",getApplicationContext());
+            writeToFile(String.valueOf(sr2),"sr2",getApplicationContext());
+             writeToFile(name+","+address+","+attributions,"sr3",getApplicationContext());
+
+
+            Intent intent = new Intent(AddEventActivity.this, MapActivity.class);
+            startActivity(intent);
+
+
+
+
+        }
+
         if( requestCode == CAMERA_PIC_REQUEST && resultCode == RESULT_OK && data != null)
         {
             bitmap = (Bitmap) data.getExtras().get("data");
@@ -378,14 +446,14 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
             case 10:
-                configure_button();
+                getlatlong();
                 break;
             default:
                 break;
         }
     }
 
-    void configure_button(){
+    void getlatlong(){
         // first check for permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -403,27 +471,8 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
-      //  loc.setText(  location.getLongitude() + "," + location.getLatitude());
+        loc.setText(  location.getLongitude() + "," + location.getLatitude());
 
-
-        List<Address> addresses;
-        Geocoder gcd=new Geocoder(getBaseContext(), Locale.ENGLISH);
-
-        try {
-            addresses=gcd.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-            if(addresses.size()>0)
-
-            {
-               // while(locname.getText().toString()==null) {
-                   // cityname = addresses.get(0).getCountryName().toString();
-                   // loc.setText(cityname);
-                //}
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
 
     }
 
@@ -442,4 +491,35 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     public void onProviderDisabled(String provider) {
 
     }
+
+
+    private void writeToFile(String data,String tx,Context context) {
+        try {
+            String appname ="TheX";
+            File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Text/");
+            if (!folder.exists()) {
+                folder.mkdirs();
+                Toast.makeText(getApplicationContext(), "Folder Maked", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                File f2 = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Text/");
+
+                File file = new File(String.valueOf(f2.getPath()), tx+".txt");
+                FileOutputStream stream = new FileOutputStream(file);
+                try {
+                    stream.write(data.getBytes());
+                } finally {
+                    stream.close();
+                }
+
+            }
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+
 }

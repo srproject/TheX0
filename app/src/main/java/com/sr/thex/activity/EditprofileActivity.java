@@ -44,6 +44,7 @@ public class EditprofileActivity extends Activity {
     Button editpro_save_button;
     private static int RESULT_LOAD_IMAGE = 1;
    static final int REQUEST_VIDEO_CAPTURE = 1;
+    int PLACE_PICKER_REQUEST=1;
 
     int select;
 
