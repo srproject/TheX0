@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -30,14 +31,12 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-
-
             <ImageView
                 android:id="@+id/imageaddmatab"
-                android:layout_gravity="center"
+                android:layout_gravity="top|center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_menu_camera" />
+                android:layout_height="222dp"
+                android:src="@drawable/ic_camera_enhance_white_48dp" />
 
 
             <ImageView
@@ -53,6 +52,21 @@
 
 
                 />
+
+
+            <TextView
+                android:id="@+id/titleaddev"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:gravity="bottom|left"
+                android:text="SR"
+                android:layout_marginLeft="10dp"
+                android:textSize="40dp"
+                android:textColor="#000000"
+                android:textColorHint="#ffffff"
+                android:textColorLink="#ffffff"
+                android:textColorHighlight="#ffffff" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>

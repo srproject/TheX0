@@ -1,7 +1,10 @@
 package com.sr.thex.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -19,13 +22,17 @@ import com.sr.thex.R;
 import com.sr.thex.activity.CommentActivity;
 import com.sr.thex.activity.EditprofileActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  * Created by sr on 2/22/17.
  */
 
 public class HomeFragment extends Fragment {
 
-
+    ImageView hprofile, imageView1;
 
 
 
@@ -36,6 +43,12 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
 
+        //for profile image
+        hprofile = (ImageView) rootView.findViewById(R.id.hprofile);
+        imageView1 = (ImageView) rootView.findViewById(R.id.imageView1);
+
+
+        //for nteraction
         final TextView sharen = (TextView) rootView.findViewById(R.id.sharen);
         final TextView likehn = (TextView) rootView.findViewById(R.id.likehn);
         final TextView dislikehn = (TextView) rootView.findViewById(R.id.dislikehn);
@@ -119,9 +132,52 @@ public class HomeFragment extends Fragment {
 
         });
 
+
             return rootView;
 
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadImageFromStorage();
+
+
+    }
+
+
+    //load Image From Storage
+    private void loadImageFromStorage() {
+        String appname = getString(R.string.app_name);
+
+
+        try {
+
+            File f = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Image/profile_image.png");
+            if (f.exists()) {
+
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+                hprofile.setImageBitmap(b);
+            }
+            File locaionf = new File(Environment.getExternalStorageDirectory() + File.separator + "/" + appname + "/Image/location_add.png");
+            if (locaionf.exists()) {
+
+                Bitmap b2 = BitmapFactory.decodeStream(new FileInputStream(locaionf));
+
+                imageView1.setImageBitmap(b2);
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
     public void calculcate(View v) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

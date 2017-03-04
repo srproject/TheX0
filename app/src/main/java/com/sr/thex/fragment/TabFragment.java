@@ -87,7 +87,8 @@ public class TabFragment extends Fragment {
             switch (position){
                 case 0 : return new HomeFragment();
                 case 1 : return new NotiFragment();
-                case 2 : return new ProFragment();
+                case 2:
+                    return new NewProFragment();
 
             }
             return null;
