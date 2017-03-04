@@ -33,6 +33,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.util.Log;
 
@@ -54,6 +56,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         FragmentManager mFragmentManager;
         FragmentTransaction mFragmentTransaction;
         SearchView mSearchView;
+    ImageView imageViewheaderlogo;
 
 
     @Override
@@ -63,8 +66,24 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
- 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+
+        View headerview = navigationView.getHeaderView(0);
+
+        LinearLayout header = (LinearLayout) headerview.findViewById(R.id.nav_view_header);
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent EditprofileActivity = new Intent(MainActivity.this, EditprofileActivity.class);
+                startActivity(EditprofileActivity);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
 
 
 
@@ -105,13 +124,11 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
 //setup for nav
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 

@@ -39,13 +39,14 @@
 
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabeditpro"
+                android:id="@+id/fabeditimageadd"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom|center"
-                android:layout_marginLeft="60dp"
-                android:layout_marginBottom="40dp"
-                app:srcCompat="@android:drawable/ic_menu_add" />
+                android:layout_marginLeft="150dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="fabeditonclick"
+                app:srcCompat="@drawable/ic_add_white_24dp" />
 
 
 

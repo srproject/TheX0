@@ -35,7 +35,8 @@ import java.io.IOException;
 import  com.sr.thex.R;
 
 public class EditprofileActivity extends Activity {
-    FloatingActionButton fabeditphoto;
+
+    FloatingActionButton fabeditimageadd;
     ImageView imageVieweditpro;
     int CAMERA_PIC_REQUEST = 2;
     int  TAKE_PICTURE=0;
@@ -52,12 +53,17 @@ public class EditprofileActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_event_content);
+        setContentView(R.layout.editprofile_layout);
 
         editpro_save_button=(Button)findViewById(R.id.editpro_save_button);
         imageVieweditpro=(ImageView) findViewById(R.id.imageVieweditpro);
-        fabeditphoto =(FloatingActionButton) findViewById(R.id.fabeditpro);
+        fabeditimageadd = (FloatingActionButton) findViewById(R.id.fabeditimageadd);
 
+
+
+
+
+            /*
 
         fabeditphoto.setOnClickListener(new View.OnClickListener()
         {
@@ -68,22 +74,24 @@ public class EditprofileActivity extends Activity {
 
             {
 
-              /*  Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+           Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 setResult(RESULT_OK,cameraIntent);
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
                 //
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(pickPhoto , 1);
-                */
 
-                selectImage();
+                //selectImage();
             }
 
         });
 
 
+                    */
+
     }
+
 
 
     private void selectImage() {
@@ -151,7 +159,7 @@ public class EditprofileActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(select==1){
+
 
 
 
@@ -175,13 +183,12 @@ public class EditprofileActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Picture Not taken", Toast.LENGTH_LONG);
             }
 
-            }
 
-if(select==2){
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data)
+
+        {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
 
 
             Cursor cursor = getContentResolver().query(selectedImage,
@@ -191,7 +198,7 @@ if(select==2){
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
-            Log.i("SR","m2f");
+            Log.i("SR", "m2f");
 
 
             Bitmap bmp = null;
@@ -204,14 +211,14 @@ if(select==2){
             try {
                 saveImage(bmp);
                 imageVieweditpro.setImageBitmap(bmp);
-                Log.i("SR","m2");
+                Log.i("SR", "m2");
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+        }
+
 
         }
-    }
 
            }
 
@@ -293,6 +300,23 @@ if(select==2){
         loadImageFromStorage();
 
 
+    }
+
+    public void fabeditonclick(View v) {
+
+
+/*
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        setResult(RESULT_OK,cameraIntent);
+        startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+        //
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto , 1);
+*/
+        selectImage();
+
+//button Clicked
     }
 
     
