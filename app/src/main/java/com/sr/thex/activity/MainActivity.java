@@ -203,7 +203,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
     }
 
 
-//setup for
+//setup for select tab from nav
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -246,7 +246,10 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
 
     }
+
+
 //method for peremission
+
     public void permi(){
 
 
@@ -328,6 +331,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         }
 
     }
+
+//This for move fab
 
     public void animateFAB(){
 
