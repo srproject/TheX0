@@ -238,14 +238,14 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@mipmap/ainico"
-            android:id="@+id/imagetype"
+            android:id="@+id/imagetype2"
             app:cardCornerRadius="50dp"
             android:layout_marginBottom="30dp"
 
             />
 
         <TextView
-            android:id="@+id/title1"
+            android:id="@+id/title02"
             android:text="MATAB"
             android:layout_marginLeft="70dp"
             android:layout_marginTop="20dp"
@@ -264,13 +264,13 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:srcCompat="@mipmap/hero"
-            android:id="@+id/hprofile"
+            android:id="@+id/hprofile2"
             app:cardCornerRadius="50dp"
 
             />
 
         <TextView
-            android:id="@+id/title12"
+            android:id="@+id/title122"
             android:text="Iron Man"
             android:layout_marginTop="55dp"
             android:layout_marginLeft="90dp"
@@ -287,7 +287,7 @@
             android:layout_width="match_parent"
             android:layout_height="215dp"
             app:srcCompat="@mipmap/samplemap"
-            android:id="@+id/imageView1"
+            android:id="@+id/imageView12"
             app:cardCornerRadius="50dp"
             android:layout_marginBottom="30dp"
 
@@ -295,7 +295,7 @@
 
 
         <TextView
-            android:id="@+id/des1"
+            android:id="@+id/des12"
             android:text="description"
             android:layout_marginTop="320dp"
             android:layout_marginLeft="30dp"
@@ -308,7 +308,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabhcomm"
+            android:id="@+id/fabhcomm2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
@@ -322,7 +322,7 @@
 
 
         <TextView
-            android:id="@+id/commhn"
+            android:id="@+id/commhn2"
             android:text="0"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="420dp"
@@ -336,7 +336,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabhlike"
+            android:id="@+id/fabhlike2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="140dp"
@@ -350,7 +350,7 @@
 
 
         <TextView
-            android:id="@+id/likehn"
+            android:id="@+id/likehn2"
             android:text="0"
             android:layout_marginLeft="156dp"
             android:layout_marginTop="420dp"
@@ -363,7 +363,7 @@
             android:layout_alignParentStart="true" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabhdislike"
+            android:id="@+id/fabhdislike2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="236dp"
@@ -377,7 +377,7 @@
 
 
         <TextView
-            android:id="@+id/dislikehn"
+            android:id="@+id/dislikehn2"
             android:text="0"
             android:layout_marginLeft="252dp"
             android:layout_marginTop="420dp"
@@ -391,7 +391,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabhshare1"
+            android:id="@+id/fabhshare12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="330dp"
@@ -405,7 +405,7 @@
 
 
         <TextView
-            android:id="@+id/sharen"
+            android:id="@+id/sharen2"
             android:text="0"
             android:layout_marginLeft="345dp"
             android:layout_marginTop="420dp"
