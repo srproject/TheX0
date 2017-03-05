@@ -99,7 +99,7 @@
             android:layout_marginBottom="20dp"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp"
-
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_add_white_24dp"
             app:layout_behavior="com.codepath.floatingactionbuttontest.ScrollAwareFABBehavior"
             />

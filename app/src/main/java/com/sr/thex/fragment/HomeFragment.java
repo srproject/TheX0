@@ -75,8 +75,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //update text
 
-                sharenn +=1;
-                sharen.setText(String.valueOf(sharenn) );
+
                 //for share
 
 
@@ -86,7 +85,8 @@ public class HomeFragment extends Fragment {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
+                sharenn += 1;
+                sharen.setText(String.valueOf(sharenn));
 
 
 

@@ -2,6 +2,7 @@ package com.sr.thex.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.util.Log;
 
@@ -51,12 +53,16 @@ public class MainActivity extends AppCompatActivity
 private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
         private Boolean isFabOpen = false;
-        private FloatingActionButton fab,fab1,fab2,fab3,fab4;
-        private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    public FloatingActionButton fab, fab1, fab2, fab3, fab4;
+    public Animation fab_open, fab_close, rotate_forward, rotate_backward;
         FragmentManager mFragmentManager;
         FragmentTransaction mFragmentTransaction;
         SearchView mSearchView;
     ImageView imageViewheaderlogo;
+
+
+    public MainActivity() {
+    }
 
 
     @Override
@@ -66,14 +72,17 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-
         View headerview = navigationView.getHeaderView(0);
-
         LinearLayout header = (LinearLayout) headerview.findViewById(R.id.nav_view_header);
+
+
+        //getSupportActionBar().hide();
+
+
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +94,47 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         });
 
 
+
+
+
+/*
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                int position = tab.getPosition();
+                if(position==0)
+                {
+
+
+                }
+                if(position==1)
+                {
+
+
+                }
+                if(position==2)
+                {
+
+
+                }
+                if(position==3)
+                {
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+*/
 
 
         //fab
@@ -103,6 +153,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         fab2.setOnClickListener(  this);
         fab3.setOnClickListener(  this);
         fab3.setOnClickListener(  this);
+        fab.setAnimation(fab_open);
+
 
 
 
@@ -121,6 +173,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+
 
 //setup for nav
 
@@ -397,6 +450,21 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         }
     }
 
+    public void showFloatingActionButton() {
+        if (fab.getAnimation() == fab_close) {
+            fab.setAnimation(fab_open);
+
+
+        }
+    }
+
+    ;
+
+    public void hideFloatingActionButton() {
+        fab.setAnimation(fab_close);
+    }
+
+    ;
 
 
 }

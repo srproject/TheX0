@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.sr.thex.R;
@@ -40,15 +41,13 @@ public class ProFragment extends Fragment {
 
 
 
-
        final FloatingActionButton fabeditphoto =(FloatingActionButton)rootView.findViewById(R.id.fabeditphoto);
 
         fabeditphoto.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                Intent intent = new Intent(getActivity(), EditprofileActivity.class);
-                startActivity(intent);
+
 
             }
 
