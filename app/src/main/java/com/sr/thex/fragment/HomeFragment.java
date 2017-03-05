@@ -1,13 +1,16 @@
 package com.sr.thex.fragment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +18,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sr.thex.R;
 import com.sr.thex.activity.CommentActivity;
 import com.sr.thex.activity.EditprofileActivity;
+import com.sr.thex.activity.MainActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +40,7 @@ public class HomeFragment extends Fragment {
 
     ImageView hprofile, imageView1;
 
-
+    static boolean scroll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +48,26 @@ public class HomeFragment extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
+
+        //((MainActivity) getActivity()).hideFloatingActionButton();
+
+
+        rootView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY < scrollX) {
+                    scroll = true;
+
+                }
+                if (scrollY < oldScrollY) {
+
+                    scroll = false;
+
+
+                }
+            }
+        });
+
 
         //for profile image
         hprofile = (ImageView) rootView.findViewById(R.id.hprofile);
@@ -178,13 +204,4 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-    public void calculcate(View v) {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        String shareBody = "Here is the share content body";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
 }

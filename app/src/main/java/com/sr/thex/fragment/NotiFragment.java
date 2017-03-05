@@ -1,7 +1,9 @@
 package com.sr.thex.fragment;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -88,6 +90,15 @@ public class NotiFragment extends Fragment {
     }
 
 
+    private void requestPerms() {
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, 11);
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 4);
+
+        }
+
+    }
 
 
 }

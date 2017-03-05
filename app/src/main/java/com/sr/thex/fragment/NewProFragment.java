@@ -1,8 +1,10 @@
 package com.sr.thex.fragment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +41,7 @@ public class NewProFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //getActivity().setTitle("Team B");
+
 
         View rootView = inflater.inflate(R.layout.new_profile_layout, container, false);
 //typecode

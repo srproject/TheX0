@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -47,16 +48,18 @@ public class TabFragment extends Fragment {
     FloatingActionButton flphom;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /**
          *Inflate tab_layout and setup Views.
          */
-        View x = inflater.inflate(R.layout.tab_layout, null);
+        final View x = inflater.inflate(R.layout.tab_layout, null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
         Context c;
+
 
         /**
          *Set an Apater for the View Pager
@@ -74,6 +77,7 @@ public class TabFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if (position == 0) {
+
                     tabLayout.setVisibility(View.VISIBLE); //VIEW.VISIBLE etc.
                     // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                     ((AppCompatActivity) getActivity()).getSupportActionBar().show();
@@ -82,6 +86,7 @@ public class TabFragment extends Fragment {
 
                 }
                 if (position == 1) {
+
                     tabLayout.setVisibility(View.VISIBLE); //VIEW.VISIBLE etc.
                     //  getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                     ((AppCompatActivity) getActivity()).getSupportActionBar().show();
@@ -186,7 +191,7 @@ public class TabFragment extends Fragment {
                   return "timeline" ;
                 case 1 :
 
-                    return "Notification" ;
+                    return "Notifi";
 
                 case 2 :
 

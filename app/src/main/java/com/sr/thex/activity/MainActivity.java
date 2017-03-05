@@ -1,17 +1,18 @@
 package com.sr.thex.activity;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.Fragment;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -21,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,25 +30,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.util.Log;
 
 import com.sr.thex.R;
 import com.sr.thex.fragment.TabFragment;
 
-import java.util.Map;
-
-import static android.R.attr.value;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
 private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
@@ -59,6 +54,18 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         FragmentTransaction mFragmentTransaction;
         SearchView mSearchView;
     ImageView imageViewheaderlogo;
+    public static final int CAMERA_PERMISSION_REQUEST_CODE = 3;
+
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 123;
+    Context context;
+
+    static final Integer LOCATION = 0x1;
+    static final Integer CALL = 0x2;
+    static final Integer WRITE_EXST = 0x3;
+    static final Integer READ_EXST = 0x4;
+    static final Integer CAMERA = 0x5;
+    static final Integer ACCOUNTS = 0x6;
+    static final Integer GPS_SETTINGS = 0x7;
 
 
     public MainActivity() {
@@ -160,7 +167,13 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
 //pri
 
-        permi();
+        requestPermissions(new String[]{
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                11);
+
+
 
 
         /**
@@ -192,7 +205,6 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         int id = v.getId();
         switch (id){
             case R.id.fab:
-
                 animateFAB();
                 break;
             case R.id.fab1:
@@ -318,9 +330,74 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
     }
 
 
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+            }
+        } else {
+            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 //method for peremission
+public void permi2() {
+    askForPermission(Manifest.permission.CAMERA, CAMERA);
+    //  checkPermission();
+
+
+    askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXST);
+
+
+    askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
+
+
+    askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
+
+
+}
+
 
     public void permi(){
+
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.CAMERA},
+                        888);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+
 
 
 
@@ -342,14 +419,20 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
             requestPermissions(new String[]{Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}, 1);
             requestPermissions(new String[]{Manifest.permission.CONTROL_LOCATION_UPDATES}, 1);
             requestPermissions(new String[]{Manifest.permission.INSTALL_LOCATION_PROVIDER}, 1);
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 4);
+
 
 
         }
+        int permissionCheckcamera = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_CALENDAR);
 
 
         String[] mPermission = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+
 
         int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -377,30 +460,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
 
-            case REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(MainActivity.this, "Thank You Sir", Toast.LENGTH_SHORT).show();
-
-                    //reload my activity with permission granted
-                    finish();
-                    startActivity(getIntent());
-
-                } else
-                {
-                    Toast.makeText(MainActivity.this, "The app was not work well. Please get this permission", Toast.LENGTH_LONG).show();
-                }
-            }
-
-        }
-
-    }
 
 //This for move fab
 
@@ -458,13 +518,52 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         }
     }
 
-    ;
 
     public void hideFloatingActionButton() {
         fab.setAnimation(fab_close);
     }
 
-    ;
+    private void writeCalendarEvent() {
+        final ContentValues event = new ContentValues();
+        event.put(CalendarContract.Events.CALENDAR_ID, 1);
+        event.put(CalendarContract.Events.TITLE, "title");
+        event.put(CalendarContract.Events.DESCRIPTION, "description");
+        event.put(CalendarContract.Events.EVENT_LOCATION, "location");
+        event.put(CalendarContract.Events.DTSTART, 18000000);//startTimeMillis
+        event.put(CalendarContract.Events.DTEND, 1800000000);//endTimeMillis
+        event.put(CalendarContract.Events.ALL_DAY, 0); // 0 for false, 1 for true
+        event.put(CalendarContract.Events.HAS_ALARM, 1); // 0 for false, 1 for true
+        String timeZone = TimeZone.getDefault().getID();
+        event.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone);
+        Uri baseUri;
+        if (Build.VERSION.SDK_INT >= 8) {
+            baseUri = Uri.parse("content://com.android.calendar/events");
+        } else {
+            baseUri = Uri.parse("content://calendar/events");
+        }
+        getApplicationContext().getContentResolver().insert(baseUri, event);
+        Toast.makeText(getApplicationContext(), "Event Created", Toast.LENGTH_SHORT).show();
+    }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+
+    public void checkPermission() {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                } else {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+                }
+            }
+        }
+    }
+
+    private void requestPerms() {
+
+
+    }
 
 }
