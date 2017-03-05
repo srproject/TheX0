@@ -12,6 +12,9 @@
     <string name="menu_close">CL</string>
 
 
+    <string name="permi">This application need some permissions to work</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
