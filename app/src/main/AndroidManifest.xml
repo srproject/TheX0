@@ -90,11 +90,11 @@
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.EditprofileActivity"
-            android:label="settings"
+            android:label="Edit Profile"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.RegistrationActivity"
-            android:label="settings"
+            android:label="Registration"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.AddEventActivity"

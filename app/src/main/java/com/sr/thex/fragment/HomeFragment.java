@@ -8,10 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +40,7 @@ import java.io.FileNotFoundException;
  * Created by sr on 2/22/17.
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements KeyListener {
 
     ImageView hprofile, imageView1;
 
@@ -200,6 +204,51 @@ public class HomeFragment extends Fragment {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    @Override
+    public int getInputType() {
+        return 0;
+    }
+
+    private long lastPressedTime;
+    private static final int PERIOD = 2000;
+
+
+    @Override
+    public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event) {
+
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            switch (event.getAction()) {
+                case KeyEvent.ACTION_DOWN:
+                    if (event.getDownTime() - lastPressedTime < PERIOD) {
+                        getActivity().finish();
+                    } else {
+                        Toast.makeText(getContext(), "Press again to exit.",
+                                Toast.LENGTH_SHORT).show();
+                        lastPressedTime = event.getEventTime();
+                    }
+                    return true;
+            }
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyOther(View view, Editable text, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public void clearMetaKeyState(View view, Editable content, int states) {
 
     }
 

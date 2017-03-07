@@ -1,35 +1,22 @@
 package com.sr.thex.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-import android.util.Log;
 
 
 import com.sr.thex.R;
 import com.sr.thex.activity.MainActivity;
-
-import static android.util.Log.*;
 
 /**
  * Created by sr on 2/22/17.
@@ -104,9 +91,9 @@ public class TabFragment extends Fragment {
                 }
                 if (position == 3) {
                     ((MainActivity) getActivity()).hideFloatingActionButton();
-                    tabLayout.setVisibility(View.GONE); //VIEW.VISIBLE etc.
+                    //  tabLayout.setVisibility(View.GONE); //VIEW.VISIBLE etc.
                     //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                    //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
 
                 }
@@ -164,7 +151,7 @@ public class TabFragment extends Fragment {
                 case 2:
                     return new NewProFragment();
                 case 3:
-                    return new ProFragment();
+                    return new CameraFragment();
 
 
             }
@@ -191,7 +178,7 @@ public class TabFragment extends Fragment {
                   return "timeline" ;
                 case 1 :
 
-                    return "Notifi";
+                    return "Notices";
 
                 case 2 :
 
@@ -199,7 +186,7 @@ public class TabFragment extends Fragment {
 
                 case 3:
 
-                    return "sr";
+                    return "Camera";
 
 
 

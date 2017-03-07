@@ -380,12 +380,15 @@ Log.i("SR","Start");
                         FileOutputStream fo = new FileOutputStream(f2);
                         fo.write(bytes.toByteArray());
                         fo.close();
+                        //  super.onBackPressed();
 
 
                             finish();
 
-                            Intent intent = new Intent(MapActivity.this, AddEventActivity.class);
-                            startActivity(intent);
+                        Intent intent = new Intent(MapActivity.this, AddEventActivity.class);
+                        //startActivity(intent);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                         Toast.makeText(getApplicationContext(), "Location Update", Toast.LENGTH_SHORT).show();
 
 

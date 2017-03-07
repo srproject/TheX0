@@ -1,6 +1,7 @@
 package com.sr.thex.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Service;
 import android.app.TimePickerDialog;
@@ -73,7 +74,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEventActivity extends AppCompatActivity implements LocationListener {
+public class AddEventActivity extends AppCompatActivity implements LocationListener, Application.ActivityLifecycleCallbacks {
 
 
      FloatingActionButton fabloc,fabsend;
@@ -90,12 +91,16 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     private LocationManager locationManager;
     private LocationListener listener;
 
+    private static boolean isMySomeActivityVisible;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_event_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -411,9 +416,10 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             writeToFile(String.valueOf(sr2),"sr2",getApplicationContext());
              writeToFile(name+","+address+","+attributions,"sr3",getApplicationContext());
 
-
             Intent intent = new Intent(AddEventActivity.this, MapActivity.class);
             startActivity(intent);
+            // finish();
+
 
 
 
@@ -528,5 +534,44 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         }
     }
 
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        if (activity instanceof AddEventActivity) {
+            isMySomeActivityVisible = true;
+        }
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        if (activity instanceof AddEventActivity) {
+            isMySomeActivityVisible = false;
+        }
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
 
 }

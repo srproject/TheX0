@@ -1,20 +1,16 @@
 package com.sr.thex.fragment;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sr.thex.R;
 
@@ -26,7 +22,7 @@ import java.io.IOException;
  * Created by sr on 2/22/17.
  */
 
-public class ProFragment extends Fragment implements SurfaceHolder.Callback {
+public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
 
     Camera camera; // camera class variable
@@ -40,7 +36,7 @@ public class ProFragment extends Fragment implements SurfaceHolder.Callback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.pro_layout, container, false);
+        View rootView = inflater.inflate(R.layout.camera_layout, container, false);
         camView = (SurfaceView) rootView.findViewById(R.id.camerapreview);
 
 

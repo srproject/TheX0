@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +32,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,10 +48,11 @@ import android.util.Log;
 import com.sr.thex.R;
 import com.sr.thex.fragment.TabFragment;
 
+import java.security.Key;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, KeyListener {
 
 private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
 
@@ -59,7 +64,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         SearchView mSearchView;
     ImageView imageViewheaderlogo;
     public static final int PERMISSIONS_MULTIPLE_REQUEST = 11;
-
+    DrawerLayout drawer;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 123;
     Context context;
 
@@ -72,10 +77,17 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
     static final Integer GPS_SETTINGS = 0x7;
 
 
+    private static final long delay = 2000L;
+    private boolean mRecentlyBackPressed = false;
+    private Handler mExitHandler = new Handler();
 
-    public MainActivity() {
-    }
+    private Runnable mExitRunnable = new Runnable() {
 
+        @Override
+        public void run() {
+            mRecentlyBackPressed = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +102,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         setSupportActionBar(toolbar);
 
 
-
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerview = navigationView.getHeaderView(0);
@@ -186,15 +197,7 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+
 
 //setup fab search
 
@@ -420,5 +423,84 @@ public void permi2() {
             // permissions this app might request
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+                TabLayout.Tab tab = tabLayout.getTabAt(0);
+                tab.select();
+                drawer.closeDrawer(GravityCompat.START);
+
+                return true;
+            }
+
+            switch (event.getAction()) {
+                case KeyEvent.ACTION_DOWN:
+                    if (event.getDownTime() - lastPressedTime < PERIOD) {
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Press again to exit.",
+                                Toast.LENGTH_SHORT).show();
+                        lastPressedTime = event.getEventTime();
+                    }
+                    return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public int getInputType() {
+
+        return 0;
+    }
+
+    private long lastPressedTime;
+
+    @Override
+    public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event) {
+
+
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyOther(View view, Editable text, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public void clearMetaKeyState(View view, Editable content, int states) {
+
+    }
+
+    private static long back_pressed_time;
+    private static long PERIOD = 2000;
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
+        //You may also add condition if (doubleBackToExitPressedOnce || fragmentManager.getBackStackEntryCount() != 0) // in case of Fragment-based add
+        if (back_pressed_time + PERIOD > System.currentTimeMillis()) super.onBackPressed();
+        else
+            Toast.makeText(getBaseContext(), "Press once again to exit!", Toast.LENGTH_SHORT).show();
+        back_pressed_time = System.currentTimeMillis();
+    }
+
 
 }

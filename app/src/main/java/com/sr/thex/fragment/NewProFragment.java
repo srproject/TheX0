@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.sr.thex.R;
 import com.sr.thex.activity.EditprofileActivity;
 import com.sr.thex.activity.MainActivity;
+import com.sr.thex.activity.RegistrationActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
