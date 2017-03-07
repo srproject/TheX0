@@ -30,7 +30,7 @@ public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 4;
+    public static int int_items = 5;
     LayoutInflater li;
     FloatingActionButton flphom;
 
@@ -65,10 +65,8 @@ public class TabFragment extends Fragment {
                 int position = tab.getPosition();
                 if (position == 0) {
 
-                    tabLayout.setVisibility(View.VISIBLE); //VIEW.VISIBLE etc.
-                    // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-                    ((MainActivity) getActivity()).showFloatingActionButton();
+                    ((MainActivity) getActivity()).hideFloatingActionButton();
+
 
 
                 }
@@ -82,14 +80,19 @@ public class TabFragment extends Fragment {
 
                 }
                 if (position == 2) {
-                    tabLayout.setVisibility(View.VISIBLE); //VIEW.VISIBLE etc.
+                    // tabLayout.setVisibility(View.VISIBLE); //VIEW.VISIBLE etc.
                     //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+                    // ((AppCompatActivity) getActivity()).getSupportActionBar().show();
                     ((MainActivity) getActivity()).showFloatingActionButton();
 
 
                 }
                 if (position == 3) {
+                    ((MainActivity) getActivity()).showFloatingActionButton();
+
+
+                }
+                if (position == 4) {
                     ((MainActivity) getActivity()).hideFloatingActionButton();
                     //  tabLayout.setVisibility(View.GONE); //VIEW.VISIBLE etc.
                     //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -145,12 +148,15 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new HomeFragment();
-
-                case 1 : return new NotiFragment();
+                case 0:
+                    return new Home_Map();
+                case 1:
+                    return new HomeFragment();
                 case 2:
-                    return new NewProFragment();
+                    return new NotiFragment();
                 case 3:
+                    return new NewProFragment();
+                case 4:
                     return new CameraFragment();
 
 
@@ -175,16 +181,19 @@ public class TabFragment extends Fragment {
             switch (position){
               case 0 :
 
-                  return "timeline" ;
+                  return "MAP";
                 case 1 :
 
-                    return "Notices";
+                    return "timeline";
 
                 case 2 :
 
-                    return "profile" ;
+                    return "Notices";
 
                 case 3:
+
+                    return "profile";
+                case 4:
 
                     return "Camera";
 

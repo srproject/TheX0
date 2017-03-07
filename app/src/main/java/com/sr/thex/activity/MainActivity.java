@@ -175,6 +175,8 @@ private static final int  REQUEST_ACCESS_FINE_LOCATION = 111;
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
 //setup fab animation
@@ -429,7 +431,7 @@ public void permi2() {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-                TabLayout.Tab tab = tabLayout.getTabAt(0);
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
                 tab.select();
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -503,4 +505,21 @@ public void permi2() {
     }
 
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
