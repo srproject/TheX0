@@ -104,7 +104,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("");
+            actionBar.setTitle("Event");
             Log.v("TEST", actionBar.getTitle().toString());
         }
 
